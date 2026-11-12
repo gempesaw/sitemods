@@ -15,16 +15,13 @@ this directory. Click the reload icon there after editing.
 the side. Append `?sitemods=stay` to see the plain overview.
 
 `sites/github/pr-hide-chrome.js` — hides the global navigation and the
-PR title/tabs block on PR pages, leaving the sticky title bar.
+PR title/tabs block on PR subpages (changes, commits, checks), leaving
+the sticky title bar. The plain overview is left alone.
 
 `sites/github/pr-header-links.js` — puts Overview / Files changed links
 in the sticky title bar, since the tabs are hidden, plus a pencil that
 reveals the header and opens GitHub's title editor, re-hiding it when
 the editor closes. Overview carries the `?sitemods=stay` opt-out.
-
-`sites/github/pr-collapse-sidebar.js` — collapses the PR metadata pane
-(Reviewers, Labels, …) to a thin strip with a toggle; the choice is
-remembered in `localStorage` and defaults to collapsed.
 
 `sites/github/one-click-approve.js` — adds an **Approve** button next to
 **Submit review** on the new PR pages. It drives GitHub's own review

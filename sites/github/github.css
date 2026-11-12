@@ -14,33 +14,6 @@
 }
 .sitemods-toast-error { background: var(--bgColor-danger-emphasis, #da3633); }
 
-.sitemods-sidebar-toggle {
-  position: sticky;
-  top: 64px;
-  z-index: 2;
-  display: block;
-  margin: 0 0 4px auto;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  font: 14px/1 system-ui, sans-serif;
-  color: var(--fgColor-muted, #8b949e);
-  background: transparent;
-  border: 1px solid var(--borderColor-default, #30363d);
-  border-radius: 6px;
-  cursor: pointer;
-}
-.sitemods-sidebar-toggle:hover { color: var(--fgColor-default, #e6edf3); background: var(--bgColor-muted, #161b22); }
-
-.sitemods-sidebar-collapsed {
-  width: 40px !important;
-  min-width: 40px !important;
-  max-width: 40px !important;
-  flex: 0 0 40px !important;
-  overflow: hidden;
-}
-.sitemods-sidebar-collapsed > :not(.sitemods-sidebar-toggle) { display: none !important; }
-
 html[data-sitemods-pr-chrome-hidden] header[aria-label="Global navigation menu"],
 html[data-sitemods-pr-chrome-hidden] [class*="prc-PageLayout-Header-"] {
   display: none !important;
