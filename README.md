@@ -18,8 +18,9 @@ the side. Append `?sitemods=stay` to see the plain overview.
 PR title/tabs block on PR pages, leaving the sticky title bar.
 
 `sites/github/pr-header-links.js` — puts Overview / Files changed links
-in the sticky title bar, since the tabs are hidden. Overview carries
-the `?sitemods=stay` opt-out.
+in the sticky title bar, since the tabs are hidden, plus a pencil that
+reveals the header and opens GitHub's title editor, re-hiding it when
+the editor closes. Overview carries the `?sitemods=stay` opt-out.
 
 `sites/github/pr-collapse-sidebar.js` — collapses the PR metadata pane
 (Reviewers, Labels, …) to a thin strip with a toggle; the choice is

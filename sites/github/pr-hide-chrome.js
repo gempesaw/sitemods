@@ -7,7 +7,9 @@
     match: () => true,
 
     run(url) {
-      document.documentElement.toggleAttribute("data-sitemods-pr-chrome-hidden", PR_PAGE.test(url.pathname));
+      const html = document.documentElement;
+      const hide = PR_PAGE.test(url.pathname) && !html.hasAttribute("data-sitemods-pr-chrome-suspended");
+      html.toggleAttribute("data-sitemods-pr-chrome-hidden", hide);
     },
   });
 })();

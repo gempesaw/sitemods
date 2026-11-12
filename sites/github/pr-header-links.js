@@ -1,11 +1,34 @@
 (() => {
-  const { register } = sitemods;
+  const { register, waitFor, toast } = sitemods;
   const PR_PAGE = /^\/([^/]+)\/([^/]+)\/pull\/(\d+)(\/([a-z]+))?/;
   const OPENER = 'button[data-dd-action-name="pull_requests.review.open"]';
+  const TITLE_EDIT = 'button[data-dd-action-name="pull_requests.title.edit"]';
   const TABS = [
     ["Overview", "?sitemods=stay"],
     ["Files changed", "/changes?panel=overview"],
   ];
+
+  async function editTitle() {
+    const html = document.documentElement;
+    html.setAttribute("data-sitemods-pr-chrome-suspended", "");
+    html.removeAttribute("data-sitemods-pr-chrome-hidden");
+    window.scrollTo({ top: 0 });
+
+    const edit = document.querySelector(TITLE_EDIT);
+    if (!edit) {
+      toast("No title editor on this page; header shown instead", { error: true });
+      return;
+    }
+    edit.click();
+
+    try {
+      await waitFor(() => !document.querySelector(TITLE_EDIT), { timeout: 3000 });
+      await waitFor(() => document.querySelector(TITLE_EDIT), { timeout: 10 * 60 * 1000, interval: 300 });
+    } finally {
+      html.removeAttribute("data-sitemods-pr-chrome-suspended");
+      html.setAttribute("data-sitemods-pr-chrome-hidden", "");
+    }
+  }
 
   register({
     name: "github pr header links",
@@ -35,6 +58,17 @@
         if (suffix.startsWith("/" + current) || (!current && !suffix.startsWith("/"))) a.setAttribute("aria-current", "page");
         nav.append(a);
       }
+
+      const pencil = document.createElement("button");
+      pencil.type = "button";
+      pencil.className = opener.className;
+      pencil.classList.remove("sitemods-approve");
+      pencil.dataset.size = "small";
+      pencil.dataset.variant = "invisible";
+      pencil.title = "Edit title";
+      pencil.textContent = "✎";
+      pencil.addEventListener("click", editTitle);
+      nav.append(pencil);
 
       (actions.previousElementSibling ?? actions).after(nav);
     },
