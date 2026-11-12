@@ -1,5 +1,5 @@
 (() => {
-  const { register, waitFor, fetchText } = sitemods;
+  const { register, fetchText } = sitemods;
   const PR_OVERVIEW = /^\/([^/]+)\/([^/]+)\/pull\/(\d+)\/?$/;
 
   function escapeHtml(s) {
