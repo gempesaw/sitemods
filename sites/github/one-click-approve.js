@@ -1,29 +1,36 @@
 (() => {
-  const { register, waitFor, byText, toast } = sitemods;
+  const { register, waitFor, toast } = sitemods;
   const PR_PAGE = /^\/[^/]+\/[^/]+\/pull\/\d+(\/|$)/;
+  const OPENER = 'button[data-dd-action-name="pull_requests.review.open"]';
 
-  function findSubmitReview() {
-    return byText("button", "Submit review");
+  function findApproveOption() {
+    const radio = document.querySelector(
+      'input[type="radio"][value="approve" i], input[type="radio"][value="APPROVE"]'
+    );
+    if (radio) return radio;
+
+    return [...document.querySelectorAll('[role="radio"], [role="menuitemradio"], label, [role="option"]')].find(
+      (el) => /^\s*approve\b/i.test(el.textContent)
+    );
   }
 
-  function findDialog() {
-    return [...document.querySelectorAll("[role='dialog'], dialog[open]")].find((d) =>
-      byText("button", "Submit review", d) && byText("label, span", "Approve", d)
+  function findSubmit(option) {
+    const scope =
+      option.closest('[role="dialog"], dialog, form, [popover], [class*="Overlay"]') ?? document;
+    return [...scope.querySelectorAll("button")].find((b) =>
+      /submit/i.test(b.textContent) && !b.matches(OPENER)
     );
   }
 
   async function approve(button) {
     button.disabled = true;
     try {
-      findSubmitReview().click();
-      const dialog = await waitFor(findDialog, { timeout: 5000 });
+      document.querySelector(OPENER).click();
+      const option = await waitFor(findApproveOption, { timeout: 5000 });
+      option.click();
 
-      const approveLabel = byText("label, span", "Approve", dialog);
-      const radio = approveLabel.closest("label")?.querySelector("input[type='radio']")
-        ?? dialog.querySelector("input[type='radio'][value='approve' i], input[type='radio'][value='APPROVE']");
-      (radio ?? approveLabel).click();
-
-      byText("button", "Submit review", dialog).click();
+      const submit = await waitFor(() => findSubmit(option), { timeout: 5000 });
+      submit.click();
       toast("Approved");
     } catch (e) {
       toast(`Approve failed: ${e.message}`, { error: true, ms: 8000 });
@@ -38,9 +45,8 @@
     match: (url) => PR_PAGE.test(url.pathname),
 
     async run() {
-      const submit = await waitFor(findSubmitReview, { timeout: 15000 });
-      const group = submit.closest("[class*='ButtonGroup']") ?? submit;
-      if (group.parentElement.querySelector(".sitemods-approve")) return;
+      const opener = await waitFor(() => document.querySelector(OPENER), { timeout: 15000 });
+      if (opener.previousElementSibling?.classList.contains("sitemods-approve")) return;
 
       const button = document.createElement("button");
       button.type = "button";
@@ -48,7 +54,7 @@
       button.textContent = "Approve";
       button.title = "Approve this pull request";
       button.addEventListener("click", () => approve(button));
-      group.before(button);
+      opener.before(button);
     },
   });
 })();
