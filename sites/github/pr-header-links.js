@@ -3,8 +3,8 @@
   const PR_PAGE = /^\/([^/]+)\/([^/]+)\/pull\/(\d+)(\/([a-z]+))?/;
   const OPENER = 'button[data-dd-action-name="pull_requests.review.open"]';
   const TABS = [
-    ["Overview", ""],
-    ["Files changed", "changes"],
+    ["Overview", "?sitemods=stay"],
+    ["Files changed", "/changes?panel=overview"],
   ];
 
   register({
@@ -24,15 +24,15 @@
       const nav = document.createElement("nav");
       nav.className = "sitemods-header-links";
       nav.dataset.path = url.pathname;
-      for (const [label, segment] of TABS) {
+      for (const [label, suffix] of TABS) {
         const a = document.createElement("a");
         a.className = opener.className;
         a.classList.remove("sitemods-approve");
         a.dataset.size = "small";
         a.dataset.variant = "invisible";
-        a.href = `/${owner}/${repo}/pull/${number}${segment ? "/" + segment : ""}`;
+        a.href = `/${owner}/${repo}/pull/${number}${suffix}`;
         a.textContent = label;
-        if (segment === current) a.setAttribute("aria-current", "page");
+        if (suffix.startsWith("/" + current) || (!current && !suffix.startsWith("/"))) a.setAttribute("aria-current", "page");
         nav.append(a);
       }
 

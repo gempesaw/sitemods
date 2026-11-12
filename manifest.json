@@ -15,13 +15,21 @@
   "content_scripts": [
     {
       "matches": [
+        "https://github.com/*/*/pull/*"
+      ],
+      "js": [
+        "sites/github/pr-redirect.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
         "https://github.com/*"
       ],
       "js": [
         "lib/mods.js",
         "sites/github/pr-hide-chrome.js",
         "sites/github/pr-header-links.js",
-        "sites/github/pr-diff-sidebar.js",
         "sites/github/one-click-approve.js",
         "sites/github/pr-collapse-sidebar.js"
       ],

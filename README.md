@@ -10,16 +10,16 @@ this directory. Click the reload icon there after editing.
 
 ## GitHub
 
-`sites/github/pr-diff-sidebar.js` — on a PR overview page, fetches the
-`.diff` and shows it in a sticky panel to the right of the sidebar, one
-collapsible section per file, so the description and changes are
-visible together.
+`sites/github/pr-redirect.js` — a PR's overview URL goes straight to
+`/changes?panel=overview`, the files view with the description open on
+the side. Append `?sitemods=stay` to see the plain overview.
 
 `sites/github/pr-hide-chrome.js` — hides the global navigation and the
 PR title/tabs block on PR pages, leaving the sticky title bar.
 
 `sites/github/pr-header-links.js` — puts Overview / Files changed links
-in the sticky title bar, since the tabs are hidden.
+in the sticky title bar, since the tabs are hidden. Overview carries
+the `?sitemods=stay` opt-out.
 
 `sites/github/pr-collapse-sidebar.js` — collapses the PR metadata pane
 (Reviewers, Labels, …) to a thin strip with a toggle; the choice is
