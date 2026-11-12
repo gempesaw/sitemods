@@ -101,3 +101,16 @@ html[data-sitemods-pr-chrome-hidden] [class*="prc-PageLayout-Header-"] {
 }
 .sitemods-header-links a { white-space: nowrap; }
 .sitemods-header-links a[aria-current="page"] { font-weight: 600; color: var(--fgColor-default, #e6edf3); }
+
+html[data-sitemods-pr-chrome-hidden] [class*="prc-PageLayout-PageLayoutRoot"],
+html[data-sitemods-pr-chrome-hidden] [class*="prc-PageLayout-PageLayoutWrapper"],
+html[data-sitemods-pr-chrome-hidden] [class*="prc-PageLayout-ContentWrapper"],
+html[data-sitemods-pr-chrome-hidden] [class*="prc-PageLayout-Content-"] {
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+html[data-sitemods-pr-chrome-hidden] [class*="prc-PageLayout-PageLayoutRoot"] {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
