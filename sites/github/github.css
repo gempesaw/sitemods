@@ -4,9 +4,9 @@ html[data-sitemods-diff-open] [class*="PageLayoutWrapper"] {
 }
 
 .sitemods-diff-panel {
-  flex: 1 1 40%;
-  min-width: 420px;
-  max-width: 50%;
+  order: 99;
+  flex: 0 0 33vw;
+  width: 33vw;
   position: sticky;
   top: 64px;
   align-self: flex-start;
