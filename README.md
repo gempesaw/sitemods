@@ -10,9 +10,9 @@ this directory. Click the reload icon there after editing.
 
 ## GitHub
 
-`sites/github/pr-diff-sidebar.js` — on a PR overview page, when the PR
-touches exactly one file, fetches the `.diff` and shows it in a sticky
-panel to the right of the sidebar so the description and change are
+`sites/github/pr-diff-sidebar.js` — on a PR overview page, fetches the
+`.diff` and shows it in a sticky panel to the right of the sidebar, one
+collapsible section per file, so the description and changes are
 visible together.
 
 `sites/github/one-click-approve.js` — adds an **Approve** button next to
