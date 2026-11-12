@@ -15,6 +15,12 @@ this directory. Click the reload icon there after editing.
 collapsible section per file, so the description and changes are
 visible together.
 
+`sites/github/pr-hide-chrome.js` — hides the global navigation and the
+PR title/tabs block on PR pages, leaving the sticky title bar.
+
+`sites/github/pr-header-links.js` — puts Overview / Files changed links
+in the sticky title bar, since the tabs are hidden.
+
 `sites/github/pr-collapse-sidebar.js` — collapses the PR metadata pane
 (Reviewers, Labels, …) to a thin strip with a toggle; the choice is
 remembered in `localStorage` and defaults to collapsed.

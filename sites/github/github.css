@@ -88,3 +88,16 @@ html[data-sitemods-diff-open] [class*="PageLayoutWrapper"] {
   overflow: hidden;
 }
 .sitemods-sidebar-collapsed > :not(.sitemods-sidebar-toggle) { display: none !important; }
+
+html[data-sitemods-pr-chrome-hidden] header[aria-label="Global navigation menu"],
+html[data-sitemods-pr-chrome-hidden] [class*="prc-PageLayout-Header-"] {
+  display: none !important;
+}
+
+.sitemods-header-links {
+  display: flex;
+  gap: 4px;
+  margin-left: 12px;
+}
+.sitemods-header-links a { white-space: nowrap; }
+.sitemods-header-links a[aria-current="page"] { font-weight: 600; color: var(--fgColor-default, #e6edf3); }

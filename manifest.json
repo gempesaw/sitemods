@@ -19,6 +19,8 @@
       ],
       "js": [
         "lib/mods.js",
+        "sites/github/pr-hide-chrome.js",
+        "sites/github/pr-header-links.js",
         "sites/github/pr-diff-sidebar.js",
         "sites/github/one-click-approve.js",
         "sites/github/pr-collapse-sidebar.js"
