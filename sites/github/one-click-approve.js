@@ -41,8 +41,8 @@
     match: (url) => PR_PAGE.test(url.pathname),
 
     async run() {
-      const opener = await waitFor(() => document.querySelector(OPENER), { timeout: 15000 });
-      if (opener.previousElementSibling?.classList.contains("sitemods-approve")) return;
+      const opener = document.querySelector(OPENER);
+      if (!opener || opener.parentElement.querySelector(".sitemods-approve")) return;
 
       const button = document.createElement("button");
       button.type = "button";

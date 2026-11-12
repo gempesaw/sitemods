@@ -40,8 +40,8 @@
 
     async run(url) {
       const [, owner, repo, number] = url.pathname.match(PR_OVERVIEW);
-      const root = await waitFor(() => document.querySelector("[data-testid='sticky-sidebar']")?.closest(".prc-PageLayout-PageLayoutContent-BneH9, [class*='PageLayoutContent']"));
-      if (root.dataset.sitemodsDiff === url.pathname) return;
+      const root = document.querySelector("[data-testid='sticky-sidebar']")?.closest(".prc-PageLayout-PageLayoutContent-BneH9, [class*='PageLayoutContent']");
+      if (!root || root.dataset.sitemodsDiff === url.pathname) return;
       root.dataset.sitemodsDiff = url.pathname;
       root.querySelector(".sitemods-diff-panel")?.remove();
 
