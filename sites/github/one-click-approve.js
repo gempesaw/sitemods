@@ -2,34 +2,30 @@
   const { register, waitFor, toast } = sitemods;
   const PR_PAGE = /^\/[^/]+\/[^/]+\/pull\/\d+(\/|$)/;
   const OPENER = 'button[data-dd-action-name="pull_requests.review.open"]';
+  const APPROVE = 'input[type="radio"][data-dd-action-name="pull_requests.review.select_approve"]';
+  const SUBMIT = 'button[data-dd-action-name="pull_requests.review.submit"]';
+  const CANCEL = 'button[data-dd-action-name="pull_requests.review.cancel"]';
 
-  function findApproveOption() {
-    const radio = document.querySelector(
-      'input[type="radio"][value="approve" i], input[type="radio"][value="APPROVE"]'
-    );
-    if (radio) return radio;
-
-    return [...document.querySelectorAll('[role="radio"], [role="menuitemradio"], label, [role="option"]')].find(
-      (el) => /^\s*approve\b/i.test(el.textContent)
-    );
-  }
-
-  function findSubmit(option) {
-    const scope =
-      option.closest('[role="dialog"], dialog, form, [popover], [class*="Overlay"]') ?? document;
-    return [...scope.querySelectorAll("button")].find((b) =>
-      /submit/i.test(b.textContent) && !b.matches(OPENER)
-    );
+  function disabledReason(radio) {
+    const label = document.querySelector(`label[for="${radio.id}"]`);
+    return label?.querySelector("span:last-child")?.textContent.trim() || "Approve is disabled";
   }
 
   async function approve(button) {
     button.disabled = true;
     try {
       document.querySelector(OPENER).click();
-      const option = await waitFor(findApproveOption, { timeout: 5000 });
-      option.click();
+      const radio = await waitFor(() => document.querySelector(APPROVE), { timeout: 5000 });
+      if (radio.disabled) {
+        document.querySelector(CANCEL)?.click();
+        throw new Error(disabledReason(radio));
+      }
+      radio.click();
 
-      const submit = await waitFor(() => findSubmit(option), { timeout: 5000 });
+      const submit = await waitFor(() => {
+        const el = document.querySelector(SUBMIT);
+        return el && !el.disabled ? el : null;
+      }, { timeout: 5000 });
       submit.click();
       toast("Approved");
     } catch (e) {
