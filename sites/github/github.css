@@ -1,0 +1,72 @@
+html[data-sitemods-diff-open] .prc-PageLayout-PageLayoutWrapper-2BhU2,
+html[data-sitemods-diff-open] [class*="PageLayoutWrapper"] {
+  max-width: none !important;
+}
+
+.sitemods-diff-panel {
+  flex: 1 1 40%;
+  min-width: 420px;
+  max-width: 50%;
+  position: sticky;
+  top: 64px;
+  align-self: flex-start;
+  max-height: calc(100vh - 80px);
+  overflow: auto;
+  margin-left: 16px;
+  border: 1px solid var(--borderColor-default, #30363d);
+  border-radius: 6px;
+  background: var(--bgColor-default, #0d1117);
+  font-size: 12px;
+}
+
+.sitemods-diff-file {
+  position: sticky;
+  top: 0;
+  padding: 8px 12px;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-weight: 600;
+  background: var(--bgColor-muted, #161b22);
+  border-bottom: 1px solid var(--borderColor-default, #30363d);
+}
+
+.sitemods-diff-body {
+  margin: 0;
+  padding: 8px 0;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  line-height: 20px;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.sitemods-diff-body > div { padding: 0 12px; }
+.sitemods-diff-add { background: var(--bgColor-success-muted, #12261e); }
+.sitemods-diff-del { background: var(--bgColor-danger-muted, #25171c); }
+.sitemods-diff-hunk { color: var(--fgColor-accent, #58a6ff); background: var(--bgColor-accent-muted, #121d2f); margin: 6px 0; }
+.sitemods-diff-meta { color: var(--fgColor-muted, #8b949e); }
+
+.sitemods-approve {
+  margin-right: 8px;
+  padding: 5px 12px;
+  font: inherit;
+  font-weight: 500;
+  color: #fff;
+  background: var(--bgColor-success-emphasis, #238636);
+  border: 1px solid var(--borderColor-success-emphasis, #2ea043);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.sitemods-approve:disabled { opacity: 0.6; cursor: wait; }
+
+.sitemods-toast {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 2147483647;
+  padding: 10px 14px;
+  border-radius: 6px;
+  color: #fff;
+  background: var(--bgColor-success-emphasis, #238636);
+  font: 13px system-ui, sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.sitemods-toast-error { background: var(--bgColor-danger-emphasis, #da3633); }
