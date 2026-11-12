@@ -3,14 +3,29 @@
   "name": "sitemods",
   "version": "0.1.0",
   "description": "Personal per-site tweaks.",
-  "permissions": ["storage"],
-  "host_permissions": ["<all_urls>"],
-  "background": { "service_worker": "background.js" },
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
     {
-      "matches": ["https://github.com/*"],
-      "js": ["lib/mods.js", "sites/github/pr-diff-sidebar.js", "sites/github/one-click-approve.js"],
-      "css": ["sites/github/github.css"],
+      "matches": [
+        "https://github.com/*"
+      ],
+      "js": [
+        "lib/mods.js",
+        "sites/github/pr-diff-sidebar.js",
+        "sites/github/one-click-approve.js",
+        "sites/github/pr-collapse-sidebar.js"
+      ],
+      "css": [
+        "sites/github/github.css"
+      ],
       "run_at": "document_idle"
     }
   ]

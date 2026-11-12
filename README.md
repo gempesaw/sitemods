@@ -15,6 +15,10 @@ this directory. Click the reload icon there after editing.
 collapsible section per file, so the description and changes are
 visible together.
 
+`sites/github/pr-collapse-sidebar.js` — collapses the PR metadata pane
+(Reviewers, Labels, …) to a thin strip with a toggle; the choice is
+remembered in `localStorage` and defaults to collapsed.
+
 `sites/github/one-click-approve.js` — adds an **Approve** button next to
 **Submit review** on the new PR pages. It drives GitHub's own review
 dialog (open, pick Approve, submit), so it uses the logged-in session
