@@ -19,7 +19,7 @@
     return "ctx";
   }
 
-  function render(fileDiff) {
+  function renderFile(fileDiff) {
     const header = fileDiff.match(/^diff --git a\/(.*?) b\/(.*)$/m);
     const name = header ? header[2] : "(unknown file)";
     const body = fileDiff
@@ -28,9 +28,13 @@
       .map((line) => `<div class="sitemods-diff-${lineClass(line)}">${escapeHtml(line) || " "}</div>`)
       .join("");
 
+    return `<details open><summary class="sitemods-diff-file">${escapeHtml(name)}</summary><pre class="sitemods-diff-body">${body}</pre></details>`;
+  }
+
+  function render(files) {
     const panel = document.createElement("aside");
     panel.className = "sitemods-diff-panel";
-    panel.innerHTML = `<div class="sitemods-diff-file">${escapeHtml(name)}</div><pre class="sitemods-diff-body">${body}</pre>`;
+    panel.innerHTML = files.map(renderFile).join("");
     return panel;
   }
 
@@ -47,9 +51,9 @@
 
       const diff = await fetchText(`https://github.com/${owner}/${repo}/pull/${number}.diff`);
       const files = splitFiles(diff);
-      if (files.length !== 1) return;
+      if (!files.length) return;
 
-      root.append(render(files[0]));
+      root.append(render(files));
       document.documentElement.dataset.sitemodsDiffOpen = "";
     },
   });

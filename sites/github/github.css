@@ -22,6 +22,8 @@ html[data-sitemods-diff-open] [class*="PageLayoutWrapper"] {
 .sitemods-diff-file {
   position: sticky;
   top: 0;
+  z-index: 1;
+  cursor: pointer;
   padding: 8px 12px;
   font-family: ui-monospace, SFMono-Regular, monospace;
   font-weight: 600;
@@ -44,18 +46,7 @@ html[data-sitemods-diff-open] [class*="PageLayoutWrapper"] {
 .sitemods-diff-hunk { color: var(--fgColor-accent, #58a6ff); background: var(--bgColor-accent-muted, #121d2f); margin: 6px 0; }
 .sitemods-diff-meta { color: var(--fgColor-muted, #8b949e); }
 
-.sitemods-approve {
-  margin-right: 8px;
-  padding: 5px 12px;
-  font: inherit;
-  font-weight: 500;
-  color: #fff;
-  background: var(--bgColor-success-emphasis, #238636);
-  border: 1px solid var(--borderColor-success-emphasis, #2ea043);
-  border-radius: 6px;
-  cursor: pointer;
-}
-.sitemods-approve:disabled { opacity: 0.6; cursor: wait; }
+.sitemods-approve { margin-left: 8px; }
 
 .sitemods-toast {
   position: fixed;

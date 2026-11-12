@@ -44,10 +44,13 @@
       const opener = document.querySelector(OPENER);
       if (!opener || opener.parentElement.querySelector(".sitemods-approve")) return;
 
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "sitemods-approve";
-      button.textContent = "Approve";
+      const button = opener.cloneNode(true);
+      for (const attr of [...button.attributes]) {
+        if (/^(data-dd-action-name|aria-.*|id|style)$/.test(attr.name)) button.removeAttribute(attr.name);
+      }
+      button.querySelector('[data-component="trailingAction"]')?.remove();
+      button.querySelector('[data-component="text"]').textContent = "Approve";
+      button.classList.add("sitemods-approve");
       button.title = "Approve this pull request";
       button.addEventListener("click", () => approve(button));
       opener.before(button);
