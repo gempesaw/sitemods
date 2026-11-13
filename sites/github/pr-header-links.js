@@ -70,6 +70,16 @@
       pencil.addEventListener("click", editTitle);
       nav.append(pencil);
 
+      const copy = pencil.cloneNode(false);
+      copy.title = "Copy PR link";
+      copy.textContent = "⎘";
+      copy.addEventListener("click", async () => {
+        const link = `${location.origin}/${owner}/${repo}/pull/${number}`;
+        await navigator.clipboard.writeText(link);
+        toast(`Copied ${link}`);
+      });
+      nav.append(copy);
+
       (actions.previousElementSibling ?? actions).after(nav);
     },
   });

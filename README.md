@@ -21,7 +21,8 @@ the sticky title bar. The plain overview is left alone.
 `sites/github/pr-header-links.js` — puts Overview / Files changed links
 in the sticky title bar, since the tabs are hidden, plus a pencil that
 reveals the header and opens GitHub's title editor, re-hiding it when
-the editor closes. Overview carries the `?sitemods=stay` opt-out.
+the editor closes, and a copy button for the bare
+`https://github.com/owner/repo/pull/N` link. Overview carries the `?sitemods=stay` opt-out.
 
 `sites/github/one-click-approve.js` — adds an **Approve** button next to
 **Submit review** on the new PR pages. It drives GitHub's own review
