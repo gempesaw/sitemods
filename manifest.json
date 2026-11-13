@@ -30,7 +30,8 @@
         "lib/mods.js",
         "sites/github/pr-hide-chrome.js",
         "sites/github/pr-header-links.js",
-        "sites/github/one-click-approve.js"
+        "sites/github/one-click-approve.js",
+        "sites/github/pr-description-revert.js"
       ],
       "css": [
         "sites/github/github.css"

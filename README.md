@@ -28,6 +28,11 @@ the editor closes. Overview carries the `?sitemods=stay` opt-out.
 dialog (open, pick Approve, submit), so it uses the logged-in session
 and needs no token.
 
+`sites/github/pr-description-revert.js` — in the description's edit
+history dialog, a **Revert to before this edit** button rebuilds the
+earlier text from the diff, opens the description editor, and fills it
+in. Saving is left to you.
+
 ## Adding a mod
 
 ```js

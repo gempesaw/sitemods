@@ -39,3 +39,5 @@ html[data-sitemods-pr-chrome-hidden] [class*="prc-PageLayout-PageLayoutRoot"] {
   padding-left: 8px !important;
   padding-right: 8px !important;
 }
+
+.sitemods-revert { margin-right: 8px; }
