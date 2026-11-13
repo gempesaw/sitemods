@@ -41,3 +41,5 @@ html[data-sitemods-pr-chrome-hidden] [class*="prc-PageLayout-PageLayoutRoot"] {
 }
 
 .sitemods-revert { margin-right: 8px; }
+
+.sitemods-state { align-self: center; margin-right: 4px; }
