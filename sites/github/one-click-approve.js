@@ -28,6 +28,7 @@
       }, { timeout: 5000 });
       submit.click();
       toast("Approved");
+      document.dispatchEvent(new CustomEvent("sitemods:reviews-changed"));
     } catch (e) {
       toast(`Approve failed: ${e.message}`, { error: true, ms: 8000 });
       throw e;

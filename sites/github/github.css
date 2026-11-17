@@ -43,3 +43,15 @@ html[data-sitemods-pr-chrome-hidden] [class*="prc-PageLayout-PageLayoutRoot"] {
 .sitemods-revert { margin-right: 8px; }
 
 .sitemods-state { align-self: center; margin-right: 4px; }
+
+.sitemods-reviews {
+  display: inline-flex;
+  gap: 10px;
+  align-self: center;
+  margin-left: 12px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.sitemods-reviews-none, .sitemods-reviews-pending { color: var(--fgColor-muted, #8b949e); }
+.sitemods-reviews-approved { color: var(--fgColor-success, #3fb950); font-weight: 600; }
+.sitemods-reviews-changes { color: var(--fgColor-danger, #f85149); font-weight: 600; }

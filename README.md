@@ -32,6 +32,14 @@ and needs no token.
 `sites/github/pr-state-badge.js` — mirrors the PR state badge (Draft,
 Open, Merged, Queued, …) from the hidden header into the sticky bar.
 
+`sites/github/pr-reviews.js` — shows who has approved (✓), requested
+changes (✗) or is still pending (○) in the sticky bar. Off the overview
+page it reads the reviewer list from a background fetch of the overview.
+
+`sites/github/pr-close.js` — a **Close** button in the sticky bar, with
+a confirm; on pages without GitHub's close button it hops to the
+overview and clicks it there.
+
 `sites/github/pr-description-revert.js` — in the description's edit
 history dialog, a **Revert to before this edit** button rebuilds the
 earlier text from the diff, opens the description editor, and fills it
