@@ -38,6 +38,15 @@
         "sites/github/github.css"
       ],
       "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://app.slack.com/*"
+      ],
+      "css": [
+        "sites/slack/slack.css"
+      ],
+      "run_at": "document_start"
     }
   ]
 }

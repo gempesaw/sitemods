@@ -1,0 +1,3 @@
+.c-message_attachment:has(a.c-message_attachment__title_link[href*="github.com/"][href*="/pull/"]) {
+  display: none !important;
+}

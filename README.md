@@ -37,6 +37,11 @@ history dialog, a **Revert to before this edit** button rebuilds the
 earlier text from the diff, opens the description editor, and fills it
 in. Saving is left to you.
 
+## Slack
+
+`sites/slack/slack.css` — hides the unfurled preview card under GitHub
+pull request links in messages.
+
 ## Adding a mod
 
 ```js
