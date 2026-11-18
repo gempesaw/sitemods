@@ -47,8 +47,9 @@ in. Saving is left to you.
 
 ## Slack
 
-`sites/slack/slack.css` — hides the unfurled preview card under GitHub
-pull request links in messages.
+`sites/slack/hide-pr-unfurls.js` — hides the unfurled preview card
+under GitHub pull request links in other people's messages. Your own
+stay visible so you can remove them for everyone.
 
 ## Adding a mod
 

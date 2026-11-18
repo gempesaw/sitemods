@@ -45,10 +45,14 @@
       "matches": [
         "https://app.slack.com/*"
       ],
+      "js": [
+        "lib/mods.js",
+        "sites/slack/hide-pr-unfurls.js"
+      ],
       "css": [
         "sites/slack/slack.css"
       ],
-      "run_at": "document_start"
+      "run_at": "document_idle"
     }
   ]
 }
