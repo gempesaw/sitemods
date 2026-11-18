@@ -3,26 +3,21 @@
   const PR_PAGE = /^\/([^/]+)\/([^/]+)\/pull\/(\d+)(\/|$)/;
   const STATES = [
     ["approved", /approved/i],
-    ["changes", /changes/i],
+    ["changes", /requested changes/i],
     ["commented", /comment/i],
-    ["pending", /pending|awaiting|requested/i],
+    ["pending", /awaiting|pending|requested/i],
   ];
 
-  function stateOf(row) {
-    const text = [...row.querySelectorAll('[data-component="Tooltip"]')].map((t) => t.textContent).join(" ");
-    return STATES.find(([, re]) => re.test(text))?.[0] ?? "pending";
-  }
-
-  function parse(root) {
-    return [...root.querySelectorAll('[class*="reviewerRow"]')].map((row) => ({
-      name: row.querySelector('[class*="reviewerName"]')?.textContent.trim() ?? "?",
-      state: stateOf(row),
+  function parse(doc) {
+    return [...doc.querySelectorAll('tool-tip[for^="review-status-"]')].map((tip) => ({
+      name: tip.getAttribute("for").slice("review-status-".length),
+      state: STATES.find(([, re]) => re.test(tip.textContent))?.[0] ?? "pending",
     }));
   }
 
-  async function reviewers(owner, repo, number, onOverview) {
-    if (onOverview && document.querySelector('[class*="reviewerRow"]')) return parse(document);
-    const html = await fetchText(`https://github.com/${owner}/${repo}/pull/${number}`);
+  async function reviewers(owner, repo, number) {
+    const partial = encodeURIComponent("pull_requests/sidebar/show/reviewers");
+    const html = await fetchText(`https://github.com/${owner}/${repo}/issues/${number}/show_partial?partial=${partial}`);
     return parse(new DOMParser().parseFromString(html, "text/html"));
   }
 
@@ -54,10 +49,10 @@
     const nav = document.querySelector(".sitemods-header-links");
     const m = url.pathname.match(PR_PAGE);
     if (!nav || !m) return;
-    const [, owner, repo, number, rest] = m;
+    const [, owner, repo, number] = m;
     const token = ++refreshToken;
 
-    const list = await reviewers(owner, repo, number, !rest || rest === "/");
+    const list = await reviewers(owner, repo, number);
     if (token !== refreshToken) return;
 
     const fresh = render(list);
