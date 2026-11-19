@@ -55,3 +55,6 @@ html[data-sitemods-pr-chrome-hidden] [class*="prc-PageLayout-PageLayoutRoot"] {
 .sitemods-reviews-none, .sitemods-reviews-pending { color: var(--fgColor-muted, #8b949e); }
 .sitemods-reviews-approved { color: var(--fgColor-success, #3fb950); font-weight: 600; }
 .sitemods-reviews-changes { color: var(--fgColor-danger, #f85149); font-weight: 600; }
+
+.sitemods-merge { margin-left: 8px; }
+.sitemods-close { margin-left: 8px; }
