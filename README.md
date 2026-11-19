@@ -40,7 +40,7 @@ page it reads the reviewer list from a background fetch of the overview.
 sticky bar, with a confirm; on pages without GitHub's close button it
 hops to the overview and clicks it there.
 
-`sites/github/pr-merge.js` — a **Merge** button beside it, with a
+`sites/github/pr-merge.js` — a **Merge** button ahead of Submit review, with a
 confirm. It clicks whichever of GitHub's merge buttons is showing (merge
 when ready, add to merge queue, auto-merge, merge) and its confirm step,
 hopping to the overview first when the merge box isn't on the page.
