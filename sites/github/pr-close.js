@@ -32,7 +32,13 @@
       }
 
       const nav = document.querySelector(".sitemods-header-links");
-      if (!nav || nav.querySelector(".sitemods-close")) return;
+      const bar = nav?.parentElement;
+      if (!bar) return;
+      const existing = bar.querySelector(".sitemods-close");
+      if (existing) {
+        if (existing !== bar.lastElementChild) bar.append(existing);
+        return;
+      }
 
       const template = nav.querySelector("button");
       const button = template.cloneNode(false);
@@ -41,7 +47,7 @@
       button.title = "Close pull request";
       button.textContent = "Close";
       button.addEventListener("click", () => closePr(owner, repo, number));
-      nav.append(button);
+      bar.append(button);
     },
   });
 })();
