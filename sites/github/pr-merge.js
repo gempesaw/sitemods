@@ -1,5 +1,5 @@
 (() => {
-  const { register, waitFor, byText, toast } = sitemods;
+  const { register, waitFor, toast } = sitemods;
   const PR_PAGE = /^\/([^/]+)\/([^/]+)\/pull\/(\d+)(\/|$)/;
   const ACTION = "sitemods_action=merge";
   const OPENER = 'button[data-dd-action-name="pull_requests.review.open"]';
@@ -12,12 +12,30 @@
     "rebase and merge",
   ];
 
-  function mergeButton() {
+  function normalize(text) {
+    return (text ?? "").replace(/\s+/g, " ").trim().toLowerCase();
+  }
+
+  function usable(button) {
+    return !button.disabled && button.getAttribute("aria-disabled") !== "true";
+  }
+
+  function mergeButtons() {
+    const visible = [...document.querySelectorAll("button")].filter((b) => b.offsetParent !== null);
     for (const label of LABELS) {
-      const button = byText("button", label);
-      if (button && button.offsetParent !== null) return button;
+      const matches = visible.filter((b) => normalize(b.textContent) === label);
+      if (matches.length) return matches;
     }
-    return null;
+    return [];
+  }
+
+  function mergeButton() {
+    const buttons = mergeButtons();
+    return buttons.find(usable) ?? buttons[0] ?? null;
+  }
+
+  function usableMergeButton() {
+    return mergeButtons().find(usable) ?? null;
   }
 
   function confirmButton() {
@@ -28,10 +46,10 @@
   }
 
   async function clickMerge(number) {
-    const button = mergeButton();
-    if (!button) throw new Error("GitHub shows no merge button for this PR");
-    if (button.disabled || button.getAttribute("aria-disabled") === "true")
-      throw new Error(`"${button.textContent.trim()}" isn't available yet`);
+    const shown = mergeButton();
+    if (!shown) throw new Error("GitHub shows no merge button for this PR");
+    const button = await waitFor(usableMergeButton, { timeout: 5000 }).catch(() => null);
+    if (!button) throw new Error(`"${shown.textContent.trim()}" isn't available yet`);
 
     const label = button.textContent.trim();
     button.click();
