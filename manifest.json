@@ -32,6 +32,7 @@
         "sites/github/pr-header-links.js",
         "sites/github/one-click-approve.js",
         "sites/github/pr-description-revert.js",
+        "sites/github/pr-submit-shortcut.js",
         "sites/github/pr-state-badge.js",
         "sites/github/pr-close.js",
         "sites/github/pr-reviews.js"

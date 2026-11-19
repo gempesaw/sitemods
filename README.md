@@ -45,6 +45,10 @@ history dialog, a **Revert to before this edit** button rebuilds the
 earlier text from the diff, opens the description editor, and fills it
 in. Saving is left to you.
 
+`sites/github/pr-submit-shortcut.js` — Alt+Shift+Enter in the PR
+description editor (or any comment box on a PR page) clicks its
+Save/Comment button.
+
 ## Slack
 
 `sites/slack/hide-pr-unfurls.js` — hides the unfurled preview card
