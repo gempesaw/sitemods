@@ -1,7 +1,7 @@
 (() => {
   const { register, waitFor, toast } = sitemods;
   const PR_PAGE = /^\/([^/]+)\/([^/]+)\/pull\/(\d+)(\/([a-z]+))?/;
-  const TITLE_EDIT = 'button[data-dd-action-name="pull_requests.title.edit"]';
+  const TITLE_EDIT = 'button:is([data-telemetry-action="pull_requests.title.edit"], [data-dd-action-name="pull_requests.title.edit"])';
   const TABS = [
     ["Overview", "?sitemods=stay"],
     ["Files changed", "/changes?panel=overview"],

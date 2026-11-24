@@ -9,7 +9,7 @@
 
   function isSubmit(button) {
     if (button.disabled || button.offsetParent === null) return false;
-    const action = button.dataset.ddActionName ?? "";
+    const action = button.dataset.telemetryAction ?? button.dataset.ddActionName ?? "";
     if (/cancel|close|discard/.test(action) || /^cancel/.test(label(button))) return false;
     return /\.(save|submit|update)$/.test(action) || SUBMIT_WORDS.includes(label(button)) || button.type === "submit";
   }

@@ -1,7 +1,7 @@
 (() => {
   const { register, waitFor, toast } = sitemods;
   const PR_PAGE = /^\/([^/]+)\/([^/]+)\/pull\/(\d+)(\/|$)/;
-  const CLOSE = 'button[data-dd-action-name="pull_requests.lifecycle.close"]';
+  const CLOSE = 'button:is([data-telemetry-action="pull_requests.lifecycle.close"], [data-dd-action-name="pull_requests.lifecycle.close"])';
   const ACTION = "sitemods_action=close";
 
   async function closePr(owner, repo, number) {

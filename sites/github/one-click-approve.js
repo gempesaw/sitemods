@@ -1,9 +1,9 @@
 (() => {
   const { register, waitFor, toast } = sitemods;
   const PR_PAGE = /^\/[^/]+\/[^/]+\/pull\/\d+(\/|$)/;
-  const APPROVE = 'input[type="radio"][data-dd-action-name="pull_requests.review.select_approve"]';
-  const SUBMIT = 'button[data-dd-action-name="pull_requests.review.submit"]';
-  const CANCEL = 'button[data-dd-action-name="pull_requests.review.cancel"]';
+  const APPROVE = 'input[type="radio"]:is([data-telemetry-action="pull_requests.review.select_approve"], [data-dd-action-name="pull_requests.review.select_approve"])';
+  const SUBMIT = 'button:is([data-telemetry-action="pull_requests.review.submit"], [data-dd-action-name="pull_requests.review.submit"])';
+  const CANCEL = 'button:is([data-telemetry-action="pull_requests.review.cancel"], [data-dd-action-name="pull_requests.review.cancel"])';
 
   function disabledReason(radio) {
     const label = document.querySelector(`label[for="${radio.id}"]`);
@@ -46,7 +46,7 @@
 
       const button = opener.cloneNode(true);
       for (const attr of [...button.attributes]) {
-        if (/^(data-dd-action-name|aria-.*|id|style)$/.test(attr.name)) button.removeAttribute(attr.name);
+        if (/^(data-dd-action-name|data-telemetry-action|aria-.*|id|style)$/.test(attr.name)) button.removeAttribute(attr.name);
       }
       button.querySelector('[data-component="trailingAction"]')?.remove();
       button.querySelector('[data-component="text"]').textContent = "Approve";

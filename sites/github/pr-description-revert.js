@@ -2,7 +2,7 @@
   const { register, waitFor, toast } = sitemods;
   const PR_PAGE = /^\/[^/]+\/[^/]+\/pull\/\d+(\/|$)/;
   const DIALOG = '[role="dialog"][class*="EditHistoryDialogContainer"]';
-  const DESCRIPTION_EDIT = 'button[data-dd-action-name="pull_requests.description.edit"]';
+  const DESCRIPTION_EDIT = 'button:is([data-telemetry-action="pull_requests.description.edit"], [data-dd-action-name="pull_requests.description.edit"])';
 
   function lineText(line) {
     const clone = line.cloneNode(true);

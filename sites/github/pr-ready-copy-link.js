@@ -3,7 +3,7 @@
   const PR_PAGE = /^\/([^/]+)\/([^/]+)\/pull\/(\d+)(\/|$)/;
 
   function isReadyButton(button) {
-    const action = button.dataset.ddActionName ?? "";
+    const action = button.dataset.telemetryAction ?? button.dataset.ddActionName ?? "";
     const label = (button.textContent || button.getAttribute("aria-label") || "")
       .replace(/\s+/g, " ").trim().toLowerCase();
     return /ready_for_review/.test(action) || label === "ready for review" || label === "mark as ready for review";
