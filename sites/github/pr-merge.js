@@ -2,7 +2,6 @@
   const { register, waitFor, toast } = sitemods;
   const PR_PAGE = /^\/([^/]+)\/([^/]+)\/pull\/(\d+)(\/|$)/;
   const ACTION = "sitemods_action=merge";
-  const OPENER = 'button[data-dd-action-name="pull_requests.review.open"]';
   const LABELS = [
     "merge when ready",
     "add to merge queue",
@@ -80,7 +79,7 @@
       }
 
       const nav = document.querySelector(".sitemods-header-links");
-      const actions = document.querySelector(OPENER)?.parentElement;
+      const actions = sitemods.reviewOpener()?.parentElement;
       if (!nav || !actions || actions.querySelector(".sitemods-merge")) return;
 
       const button = nav.querySelector("button").cloneNode(false);

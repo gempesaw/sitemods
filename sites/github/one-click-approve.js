@@ -1,7 +1,6 @@
 (() => {
   const { register, waitFor, toast } = sitemods;
   const PR_PAGE = /^\/[^/]+\/[^/]+\/pull\/\d+(\/|$)/;
-  const OPENER = 'button[data-dd-action-name="pull_requests.review.open"]';
   const APPROVE = 'input[type="radio"][data-dd-action-name="pull_requests.review.select_approve"]';
   const SUBMIT = 'button[data-dd-action-name="pull_requests.review.submit"]';
   const CANCEL = 'button[data-dd-action-name="pull_requests.review.cancel"]';
@@ -14,7 +13,7 @@
   async function approve(button) {
     button.disabled = true;
     try {
-      document.querySelector(OPENER).click();
+      sitemods.reviewOpener().click();
       const radio = await waitFor(() => document.querySelector(APPROVE), { timeout: 5000 });
       if (radio.disabled) {
         document.querySelector(CANCEL)?.click();
@@ -42,7 +41,7 @@
     match: (url) => PR_PAGE.test(url.pathname),
 
     async run() {
-      const opener = document.querySelector(OPENER);
+      const opener = sitemods.reviewOpener();
       if (!opener || opener.parentElement.querySelector(".sitemods-approve")) return;
 
       const button = opener.cloneNode(true);

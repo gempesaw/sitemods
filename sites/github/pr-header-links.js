@@ -1,7 +1,6 @@
 (() => {
   const { register, waitFor, toast } = sitemods;
   const PR_PAGE = /^\/([^/]+)\/([^/]+)\/pull\/(\d+)(\/([a-z]+))?/;
-  const OPENER = 'button[data-dd-action-name="pull_requests.review.open"]';
   const TITLE_EDIT = 'button[data-dd-action-name="pull_requests.title.edit"]';
   const TABS = [
     ["Overview", "?sitemods=stay"],
@@ -36,7 +35,7 @@
 
     run(url) {
       const [, owner, repo, number, , current = ""] = url.pathname.match(PR_PAGE);
-      const opener = document.querySelector(OPENER);
+      const opener = sitemods.reviewOpener();
       const actions = opener?.parentElement;
       if (!actions) return;
 
