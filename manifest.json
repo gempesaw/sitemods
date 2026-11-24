@@ -36,6 +36,7 @@
         "sites/github/pr-state-badge.js",
         "sites/github/pr-ready-copy-link.js",
         "sites/github/pr-merge.js",
+        "sites/github/pr-ready.js",
         "sites/github/pr-close.js",
         "sites/github/pr-reviews.js"
       ],

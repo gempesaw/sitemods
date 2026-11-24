@@ -50,6 +50,10 @@ on auto-merge.
 `sites/github/pr-ready-copy-link.js` — clicking **Ready for review**
 copies the bare `https://github.com/owner/repo/pull/N` link.
 
+`sites/github/pr-ready.js` — on your own draft PRs, a **Ready for
+review** button in the sticky bar that marks it ready through the API
+and copies the bare PR link.
+
 `sites/github/pr-description-revert.js` — in the description's edit
 history dialog, a **Revert to before this edit** button rebuilds the
 earlier text from the diff, opens the description editor, and fills it
