@@ -34,6 +34,7 @@
         "sites/github/pr-description-revert.js",
         "sites/github/pr-submit-shortcut.js",
         "sites/github/pr-state-badge.js",
+        "sites/github/pr-ready-copy-link.js",
         "sites/github/pr-merge.js",
         "sites/github/pr-close.js",
         "sites/github/pr-reviews.js"

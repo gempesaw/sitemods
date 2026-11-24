@@ -45,6 +45,9 @@ confirm. It clicks whichever of GitHub's merge buttons is showing (merge
 when ready, add to merge queue, auto-merge, merge) and its confirm step,
 hopping to the overview first when the merge box isn't on the page.
 
+`sites/github/pr-ready-copy-link.js` — clicking **Ready for review**
+copies the bare `https://github.com/owner/repo/pull/N` link.
+
 `sites/github/pr-description-revert.js` — in the description's edit
 history dialog, a **Revert to before this edit** button rebuilds the
 earlier text from the diff, opens the description editor, and fills it
