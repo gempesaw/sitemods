@@ -13,9 +13,10 @@
 </head>
 <body>
 <h1>sitemods</h1>
-<p>GitHub token for the PR buttons (Approve, Merge, Close). A fine-grained token with
-<code>Pull requests: read and write</code> and <code>Contents: read and write</code> on the repos you use.
-<a href="https://github.com/settings/personal-access-tokens/new" target="_blank">Create one</a>.</p>
+<p>GitHub token for the PR buttons (Approve, Merge, Close): a classic token with the
+<code>repo</code> scope.
+<a href="https://github.com/settings/tokens/new?scopes=repo&amp;description=sitemods" target="_blank">Create one</a>,
+then use <b>Configure SSO</b> beside it on the tokens page to authorize it for your org.</p>
 <input id="token" type="password" placeholder="github_pat_…" autocomplete="off">
 <button id="save">Save and check</button>
 <div id="status"></div>

@@ -12,8 +12,8 @@ this directory. Click the reload icon there after editing.
 
 Approve, Merge and Close call the GitHub API with a token you paste into
 the extension's options (`chrome://extensions` → sitemods → Details →
-Extension options): a fine-grained token with Pull requests and Contents
-read/write on your repos. It's kept in `chrome.storage.local`.
+Extension options): a classic token with the `repo` scope, authorized for
+SSO on your org. It's kept in `chrome.storage.local`.
 
 `sites/github/pr-redirect.js` — a PR's overview URL goes straight to
 `/changes?panel=overview`, the files view with the description open on
