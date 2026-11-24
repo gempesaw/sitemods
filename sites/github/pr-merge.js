@@ -1,83 +1,75 @@
 (() => {
-  const { register, waitFor, toast } = sitemods;
+  const { register, toast, github } = sitemods;
   const PR_PAGE = /^\/([^/]+)\/([^/]+)\/pull\/(\d+)(\/|$)/;
-  const ACTION = "sitemods_action=merge";
-  const LABELS = [
-    "merge when ready",
-    "add to merge queue",
-    "enable auto-merge",
-    "merge pull request",
-    "squash and merge",
-    "rebase and merge",
-  ];
+  const MERGE_NOW = new Set(["CLEAN", "HAS_HOOKS", "UNSTABLE"]);
 
-  function normalize(text) {
-    return (text ?? "").replace(/\s+/g, " ").trim().toLowerCase();
-  }
-
-  function usable(button) {
-    return !button.disabled && button.getAttribute("aria-disabled") !== "true";
-  }
-
-  function mergeButtons() {
-    const visible = [...document.querySelectorAll("button")].filter((b) => b.offsetParent !== null);
-    for (const label of LABELS) {
-      const matches = visible.filter((b) => normalize(b.textContent) === label);
-      if (matches.length) return matches;
+  const PR_QUERY = `query($owner: String!, $repo: String!, $number: Int!) {
+    repository(owner: $owner, name: $repo) {
+      squashMergeAllowed mergeCommitAllowed rebaseMergeAllowed
+      pullRequest(number: $number) {
+        id state isDraft baseRefName mergeStateStatus isInMergeQueue
+        autoMergeRequest { enabledAt }
+      }
     }
-    return [];
-  }
+  }`;
 
-  function mergeButton() {
-    const buttons = mergeButtons();
-    return buttons.find(usable) ?? buttons[0] ?? null;
-  }
+  const QUEUE_QUERY = `query($owner: String!, $repo: String!, $branch: String!) {
+    repository(owner: $owner, name: $repo) { mergeQueue(branch: $branch) { id } }
+  }`;
 
-  function usableMergeButton() {
-    return mergeButtons().find(usable) ?? null;
-  }
-
-  function confirmButton() {
-    const button = [...document.querySelectorAll("button")].find(
-      (b) => !b.disabled && b.offsetParent !== null && /^confirm\b/i.test(b.textContent.trim())
-    );
-    return button ?? null;
-  }
-
-  async function clickMerge(number) {
-    const shown = mergeButton();
-    if (!shown) throw new Error("GitHub shows no merge button for this PR");
-    const button = await waitFor(usableMergeButton, { timeout: 5000 }).catch(() => null);
-    if (!button) throw new Error(`"${shown.textContent.trim()}" isn't available yet`);
-
-    const label = button.textContent.trim();
-    button.click();
-    const confirm = await waitFor(confirmButton, { timeout: 3000 }).catch(() => null);
-    confirm?.click();
-    toast(`${confirm ? confirm.textContent.trim() : label}: #${number}`);
+  function mergeMethod(repo) {
+    if (repo.squashMergeAllowed) return "SQUASH";
+    if (repo.mergeCommitAllowed) return "MERGE";
+    return "REBASE";
   }
 
   async function merge(owner, repo, number) {
+    const vars = { owner, repo, number: Number(number) };
+    const { repository } = await github({ query: PR_QUERY, variables: vars });
+    const pr = repository.pullRequest;
+
+    if (pr.state !== "OPEN") throw new Error(`#${number} is ${pr.state.toLowerCase()}`);
+    if (pr.isDraft) throw new Error(`#${number} is still a draft`);
+    if (pr.isInMergeQueue) return toast(`#${number} is already in the merge queue`);
     if (!confirm(`Merge pull request #${number}?`)) return;
-    if (mergeButton()) return clickMerge(number);
-    location.assign(`/${owner}/${repo}/pull/${number}?sitemods=stay&${ACTION}`);
+
+    const queue = await github({ query: QUEUE_QUERY, variables: { owner, repo, branch: pr.baseRefName } });
+    if (queue.repository.mergeQueue) {
+      const r = await github({
+        query: `mutation($id: ID!) { enqueuePullRequest(input: { pullRequestId: $id }) { mergeQueueEntry { position } } }`,
+        variables: { id: pr.id },
+      });
+      return toast(`Queued #${number} at position ${r.enqueuePullRequest.mergeQueueEntry.position}`);
+    }
+
+    const method = mergeMethod(repository);
+    if (MERGE_NOW.has(pr.mergeStateStatus)) {
+      await github({
+        method: "PUT",
+        path: `/repos/${owner}/${repo}/pulls/${number}/merge`,
+        body: { merge_method: method.toLowerCase() },
+      });
+      toast(`Merged #${number}`);
+      setTimeout(() => location.reload(), 800);
+      return;
+    }
+
+    if (pr.autoMergeRequest) return toast(`Auto-merge is already on for #${number}`);
+    await github({
+      query: `mutation($id: ID!, $method: PullRequestMergeMethod!) {
+        enablePullRequestAutoMerge(input: { pullRequestId: $id, mergeMethod: $method }) { clientMutationId }
+      }`,
+      variables: { id: pr.id, method },
+    });
+    toast(`Auto-merge on for #${number}; it merges once requirements pass`);
   }
 
   register({
     name: "github pr merge",
     match: (url) => PR_PAGE.test(url.pathname),
 
-    async run(url) {
+    run(url) {
       const [, owner, repo, number] = url.pathname.match(PR_PAGE);
-
-      if (url.search.includes(ACTION) && !document.documentElement.dataset.sitemodsMerging) {
-        document.documentElement.dataset.sitemodsMerging = number;
-        history.replaceState(null, "", url.pathname + "?sitemods=stay");
-        await waitFor(mergeButton, { timeout: 15000 })
-          .then(() => clickMerge(number))
-          .catch((e) => toast(`Merge failed: ${e.message}`, { error: true, ms: 8000 }));
-      }
-
       const nav = document.querySelector(".sitemods-header-links");
       const actions = sitemods.reviewOpener()?.parentElement;
       if (!nav || !actions || actions.querySelector(".sitemods-merge")) return;
@@ -85,11 +77,18 @@
       const button = nav.querySelector("button").cloneNode(false);
       button.classList.add("sitemods-merge");
       button.dataset.variant = "primary";
-      button.title = "Merge, or add to the merge queue";
+      button.title = "Merge, add to the merge queue, or turn on auto-merge";
       button.textContent = "Merge";
-      button.addEventListener("click", () =>
-        merge(owner, repo, number).catch((e) => toast(`Merge failed: ${e.message}`, { error: true, ms: 8000 }))
-      );
+      button.addEventListener("click", async () => {
+        button.disabled = true;
+        try {
+          await merge(owner, repo, number);
+        } catch (e) {
+          toast(`Merge failed: ${e.message}`, { error: true, ms: 8000 });
+        } finally {
+          button.disabled = false;
+        }
+      });
       actions.prepend(button);
     },
   });

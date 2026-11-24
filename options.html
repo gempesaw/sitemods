@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>sitemods options</title>
+<style>
+  body { font: 14px system-ui, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; }
+  input { width: 100%; padding: 6px; font: inherit; box-sizing: border-box; }
+  button { margin-top: 8px; font: inherit; padding: 4px 12px; }
+  #status { margin-top: 8px; }
+  code { background: #eee; padding: 1px 4px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<h1>sitemods</h1>
+<p>GitHub token for the PR buttons (Approve, Merge, Close). A fine-grained token with
+<code>Pull requests: read and write</code> and <code>Contents: read and write</code> on the repos you use.
+<a href="https://github.com/settings/personal-access-tokens/new" target="_blank">Create one</a>.</p>
+<input id="token" type="password" placeholder="github_pat_…" autocomplete="off">
+<button id="save">Save and check</button>
+<div id="status"></div>
+<script src="options.js"></script>
+</body>
+</html>

@@ -1,36 +1,28 @@
 (() => {
-  const { register, waitFor, toast } = sitemods;
+  const { register, toast, github } = sitemods;
   const PR_PAGE = /^\/([^/]+)\/([^/]+)\/pull\/(\d+)(\/|$)/;
-  const CLOSE = 'button:is([data-telemetry-action="pull_requests.lifecycle.close"], [data-dd-action-name="pull_requests.lifecycle.close"])';
-  const ACTION = "sitemods_action=close";
 
   async function closePr(owner, repo, number) {
     if (!confirm(`Close pull request #${number}?`)) return;
-
-    const button = document.querySelector(CLOSE);
-    if (button) {
-      button.click();
+    try {
+      await github({
+        method: "PATCH",
+        path: `/repos/${owner}/${repo}/pulls/${number}`,
+        body: { state: "closed" },
+      });
       toast(`Closed #${number}`);
-      return;
+      setTimeout(() => location.reload(), 800);
+    } catch (e) {
+      toast(`Close failed: ${e.message}`, { error: true, ms: 8000 });
     }
-    location.assign(`/${owner}/${repo}/pull/${number}?sitemods=stay&${ACTION}`);
   }
 
   register({
     name: "github pr close",
     match: (url) => PR_PAGE.test(url.pathname),
 
-    async run(url) {
+    run(url) {
       const [, owner, repo, number] = url.pathname.match(PR_PAGE);
-
-      if (url.search.includes(ACTION) && !document.documentElement.dataset.sitemodsClosing) {
-        document.documentElement.dataset.sitemodsClosing = number;
-        history.replaceState(null, "", url.pathname + "?sitemods=stay");
-        const button = await waitFor(() => document.querySelector(CLOSE), { timeout: 15000 });
-        button.click();
-        toast(`Closed #${number}`);
-      }
-
       const nav = document.querySelector(".sitemods-header-links");
       const bar = nav?.parentElement;
       if (!bar) return;
@@ -40,8 +32,7 @@
         return;
       }
 
-      const template = nav.querySelector("button");
-      const button = template.cloneNode(false);
+      const button = nav.querySelector("button").cloneNode(false);
       button.classList.add("sitemods-close");
       button.dataset.variant = "danger";
       button.title = "Close pull request";

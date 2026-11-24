@@ -10,6 +10,11 @@ this directory. Click the reload icon there after editing.
 
 ## GitHub
 
+Approve, Merge and Close call the GitHub API with a token you paste into
+the extension's options (`chrome://extensions` → sitemods → Details →
+Extension options): a fine-grained token with Pull requests and Contents
+read/write on your repos. It's kept in `chrome.storage.local`.
+
 `sites/github/pr-redirect.js` — a PR's overview URL goes straight to
 `/changes?panel=overview`, the files view with the description open on
 the side. Append `?sitemods=stay` to see the plain overview.
@@ -24,10 +29,8 @@ reveals the header and opens GitHub's title editor, re-hiding it when
 the editor closes, and a copy button for the bare
 `https://github.com/owner/repo/pull/N` link. Overview carries the `?sitemods=stay` opt-out.
 
-`sites/github/one-click-approve.js` — adds an **Approve** button next to
-**Submit review** on the new PR pages. It drives GitHub's own review
-dialog (open, pick Approve, submit), so it uses the logged-in session
-and needs no token.
+`sites/github/one-click-approve.js` — an **Approve** button next to
+**Submit review** that approves through the API in one click.
 
 `sites/github/pr-state-badge.js` — mirrors the PR state badge (Draft,
 Open, Merged, Queued, …) from the hidden header into the sticky bar.
@@ -37,13 +40,12 @@ changes (✗) or is still pending (○) in the sticky bar. Off the overview
 page it reads the reviewer list from a background fetch of the overview.
 
 `sites/github/pr-close.js` — a **Close** button at the far right of the
-sticky bar, with a confirm; on pages without GitHub's close button it
-hops to the overview and clicks it there.
+sticky bar, with a confirm.
 
-`sites/github/pr-merge.js` — a **Merge** button ahead of Submit review, with a
-confirm. It clicks whichever of GitHub's merge buttons is showing (merge
-when ready, add to merge queue, auto-merge, merge) and its confirm step,
-hopping to the overview first when the merge box isn't on the page.
+`sites/github/pr-merge.js` — a **Merge** button ahead of Submit review,
+with a confirm. It adds the PR to the merge queue when the base branch
+has one, merges right away when GitHub says it can, and otherwise turns
+on auto-merge.
 
 `sites/github/pr-ready-copy-link.js` — clicking **Ready for review**
 copies the bare `https://github.com/owner/repo/pull/N` link.
