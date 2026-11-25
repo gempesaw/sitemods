@@ -42,8 +42,7 @@ page it reads the reviewer list from a background fetch of the overview.
 `sites/github/pr-close.js` — a **Close** button at the far right of the
 sticky bar, with a confirm.
 
-`sites/github/pr-merge.js` — a **Merge** button ahead of Submit review,
-with a confirm. It adds the PR to the merge queue when the base branch
+`sites/github/pr-merge.js` — a **Merge** button ahead of Submit review. It adds the PR to the merge queue when the base branch
 has one, merges right away when GitHub says it can, and otherwise turns
 on auto-merge.
 
@@ -53,6 +52,10 @@ copies the bare `https://github.com/owner/repo/pull/N` link.
 `sites/github/pr-ready.js` — on your own draft PRs, a **Ready for
 review** button in the sticky bar that marks it ready through the API
 and copies the bare PR link.
+
+`sites/github/pr-description-panel.js` — a **Description** button beside
+GitHub's Merge status button that brings the description back into the
+sidebar.
 
 `sites/github/pr-description-revert.js` — in the description's edit
 history dialog, a **Revert to before this edit** button rebuilds the
