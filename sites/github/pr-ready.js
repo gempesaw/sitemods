@@ -14,7 +14,10 @@
     if (!cache.has(key)) {
       cache.set(
         key,
-        github({ query: QUERY, variables: { owner, repo, number: Number(number) } }).catch(() => null)
+        github({ query: QUERY, variables: { owner, repo, number: Number(number) } }).catch((e) => {
+          toast(`Couldn't check draft state: ${e.message}`, { error: true, ms: 8000 });
+          return null;
+        })
       );
     }
     return cache.get(key);

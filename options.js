@@ -9,6 +9,14 @@ $("save").addEventListener("click", async () => {
   if (token) await chrome.storage.local.set({ githubToken: token });
   $("token").value = "";
 
-  const r = await chrome.runtime.sendMessage({ type: "github", path: "/user" });
-  $("status").textContent = r?.ok ? `Signed in as ${r.data.login}` : `Not working: ${r?.error}`;
+  const user = await chrome.runtime.sendMessage({ type: "github", path: "/user" });
+  if (!user?.ok) {
+    $("status").textContent = `Not working: ${user?.error}`;
+    return;
+  }
+
+  const org = await chrome.runtime.sendMessage({ type: "github", path: "/repos/modularml/infra" });
+  $("status").textContent = org?.ok
+    ? `Signed in as ${user.data.login}, with access to modularml`
+    : `Signed in as ${user.data.login}, but modularml refuses it: ${org?.error}`;
 });
