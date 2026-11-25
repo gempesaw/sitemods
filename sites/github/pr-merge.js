@@ -31,7 +31,6 @@
     if (pr.state !== "OPEN") throw new Error(`#${number} is ${pr.state.toLowerCase()}`);
     if (pr.isDraft) throw new Error(`#${number} is still a draft`);
     if (pr.isInMergeQueue) return toast(`#${number} is already in the merge queue`);
-    if (!confirm(`Merge pull request #${number}?`)) return;
 
     const queue = await github({ query: QUEUE_QUERY, variables: { owner, repo, branch: pr.baseRefName } });
     if (queue.repository.mergeQueue) {
